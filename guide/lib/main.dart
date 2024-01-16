@@ -1,20 +1,77 @@
 import 'package:flutter/material.dart';
 
-import 'src/app.dart';
-import 'src/settings/settings_controller.dart';
-import 'src/settings/settings_service.dart';
+/// Flutter code sample for [AppBar].
 
-void main() async {
-  // Set up the SettingsController, which will glue user settings to multiple
-  // Flutter Widgets.
-  final settingsController = SettingsController(SettingsService());
+void main() => runApp(const AppBarApp());
 
-  // Load the user's preferred theme while the splash screen is displayed.
-  // This prevents a sudden theme change when the app is first displayed.
-  await settingsController.loadSettings();
+class AppBarApp extends StatelessWidget {
+  const AppBarApp({super.key});
 
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
-  runApp(MyApp(settingsController: settingsController));
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: AppBarExample(),
+    );
+  }
+}
+
+class AppBarExample extends StatelessWidget {
+  const AppBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.chevron_left),
+            tooltip: 'Go back',
+            onPressed: () {
+
+            },
+        ),
+        title: const Text('SML Guide'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: () { 
+              // TODO: IMPLEMENT FUNCTION
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('this would open the settings menu, if it existed')));
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.star_outline),
+            tooltip: 'enter cache',
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('User Cache'),
+                    ),
+                    /*c
+                    TODO: IMPLEMENT
+                    */
+                    body: const Center(
+                      child: Text(
+                        'User cache goes here',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  );
+                },
+              ));
+            },
+          ),
+        ],
+      ),
+      body: const Center(
+        child: Text(
+          'Article text here',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
 }
