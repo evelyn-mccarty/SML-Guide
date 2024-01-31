@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guide/pdf_article_container.dart';
 
 /// Flutter code sample for [AppBar].
 
@@ -35,9 +36,13 @@ class AppBarExample extends StatelessWidget {
             icon: const Icon(Icons.settings),
             tooltip: 'Settings',
             onPressed: () { 
-              // TODO: IMPLEMENT FUNCTION
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('this would open the settings menu, if it existed')));
+              Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) { 
+                  return PDFArticleContainer(
+                    path: 'assets/pdf/FAQ_KingCountyUndocumented.pdf',
+                    title: 'King County Health Insurance Enrollment Info');
+                  }
+                ));
             },
           ),
           IconButton(
@@ -50,7 +55,7 @@ class AppBarExample extends StatelessWidget {
                     appBar: AppBar(
                       title: const Text('User Cache'),
                     ),
-                    /*c
+                    /*
                     TODO: IMPLEMENT
                     */
                     body: const Center(

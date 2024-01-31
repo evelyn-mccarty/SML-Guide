@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "The Build",
+            "type": "dart",
+            "request": "launch",
+            "program": "guide/lib/topbar.dart"
+        },
+
+        {
+            "name": "guide",
+            "cwd": "guide",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "guide (profile mode)",
+            "cwd": "guide",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "guide (release mode)",
+            "cwd": "guide",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
