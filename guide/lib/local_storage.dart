@@ -1,101 +1,129 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
+
+/*
+The actual widget here isn't /really/ the relevant portion, it's more the LocalStorage object itself.
+That being said, this definitely needs more work.
+
+In any case, provide a file path to the LocalStorage object, and it'll display tags + body in a rudimentary fashion.
+Will need polish to advance to actual production, but still.
+*/
 
 
+void main() => runApp(
+  MaterialApp(home: LocalStorage(fPath: 'assets/json/testArticle.json')
+  ));
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Reading and Writing Files',
-      home: FlutterDemo(storage: ArticleStorage()),
-    ),
-  );
-}
-
-class ArticleStorage {
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    return directory.path;
+//TODO: Convert JSON decoding/encoding to json_serializable format (Eve should have done this when she first set this up, but alas.)
+//NOTE: technically, fPath can point anywhere, but i really should write a helper function to get it to pull from user Documents since that's what this is gonna be using most of the time...
+//TODO: get path_provider working here so all that has to be provided is a local path instead of assets/whatever.
+class LocalStorage extends StatefulWidget {
+  LocalStorage({
+    super.key,
+    required this.fPath,
+  }) {
+    data = BaseArticleData("never adjusted but :)", [], []);
   }
+
+  final String fPath;
+  late BaseArticleData data;
+  String aTags = "";
+  String aBody = "";
+  String title = "never adjusted :)";
 
   Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/counter.txt');
+    return File(fPath);
   }
 
-  Future<int> readCounter() async {
+  Future<BaseArticleData> readArticle() async {
     try {
       final file = await _localFile;
 
-      // Read the file
       final contents = await file.readAsString();
+      final dataMap = jsonDecode(contents) as Map<String, dynamic>;
+      data = BaseArticleData.fromJson(dataMap);
 
-      return int.parse(contents);
-    } catch (e) {
-      // If encountering an error, return 0
-      return 0;
+      return data;
+
+
+    }
+    catch (e) {
+      debugPrint(e.toString());
+      const contents = '{   "title" : "!!Test Article!!", "tags" : [ "English", "Healthcare"], "body" : [ "This is what an article body might look like, if it existed.", "And this is its second line."] }';
+      final dataMap = jsonDecode(contents) as Map<String, dynamic>;
+      data = BaseArticleData.fromJson(dataMap);
+      return data;
     }
   }
 
-  Future<File> writeCounter(int counter) async {
-    final file = await _localFile;
-
-    // Write the file
-    return file.writeAsString('$counter');
-  }
-}
-
-class FlutterDemo extends StatefulWidget {
-  const FlutterDemo({super.key, required this.storage});
-
-  final ArticleStorage storage;
-
   @override
-  State<FlutterDemo> createState() => _FlutterDemoState();
+  State<LocalStorage> createState() => _LocalStorageState();
 }
 
-class _FlutterDemoState extends State<FlutterDemo> {
-  int _counter = 0;
+class _LocalStorageState extends State<LocalStorage>{
+  bool loaded = false;
 
   @override
   void initState() {
     super.initState();
-    widget.storage.readCounter().then((value) {
+    widget.readArticle().then((BaseArticleData result) {
       setState(() {
-        _counter = value;
+        loaded = true;
+        widget.data = result;
+        stderr.write(widget.data.title);
+        
+        widget.title = widget.data.title;
+        for (String tag in widget.data.tags) {
+          widget.aTags += "$tag, ";
+        }
+        for (String bodyLine in widget.data.body) {
+          widget.aBody += "$bodyLine\n";
+        }
       });
     });
+    
   }
-
-  Future<File> _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-
-    // Write the variable as a string to the file.
-    return widget.storage.writeCounter(_counter);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reading and Writing Files'),
-      ),
-      body: Center(
-        child: Text(
-          'Button tapped $_counter time${_counter == 1 ? '' : 's'}.',
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          
         ),
+        backgroundColor: Colors.green,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: Column(
+        children: [
+          Text(widget.aTags),
+          Text(widget.aBody),
+        ],
       ),
     );
   }
+}
+
+class BaseArticleData {
+  String title;
+  List<String> body = List.empty(growable: true);
+  List<String> tags = List.empty(growable: true);
+  BaseArticleData(this.title, this.body, this.tags);
+
+  BaseArticleData.fromJson(Map<String, dynamic> json) 
+    : title = json['title'] as String,
+    tags = List<String>.from(json['tags']),
+    body = List<String>.from(json['body']);
+
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'tags': tags,
+    'body': body
+  };
 }

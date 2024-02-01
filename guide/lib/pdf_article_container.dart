@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
-//import 'local_storage.dart';
 
 /*
 EXAMPLE ON HOW TO BUILD THIS INTO A FUNCTION:

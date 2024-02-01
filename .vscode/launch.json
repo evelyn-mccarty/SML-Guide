@@ -4,6 +4,14 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "name": "Localstorage Testing",
+            "type": "dart",
+            "request": "launch",
+            "program": "guide/lib/local_storage.dart"
+        },
+
         {
             "name": "The Build",
             "type": "dart",
