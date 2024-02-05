@@ -6,14 +6,21 @@
     "configurations": [
 
         {
-            "name": "Localstorage Testing",
+            "name": "Demo build",
+            "type": "dart",
+            "request": "launch",
+            "program": "guide/lib/main.dart"
+        },
+
+        {
+            "name": "[OUTDATED] localstorage testing",
             "type": "dart",
             "request": "launch",
             "program": "guide/lib/local_storage.dart"
         },
 
         {
-            "name": "The Build",
+            "name": "[OUTDATED] basic navigation testing",
             "type": "dart",
             "request": "launch",
             "program": "guide/lib/topbar.dart"

@@ -56,7 +56,6 @@ class AppBarExample extends StatelessWidget {
                       title: const Text('User Cache'),
                     ),
                     /*
-                    TODO: IMPLEMENT
                     */
                     body: const Center(
                       child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guide/pdf_article_container.dart';
 
 void main() => runApp(MyApp());
 
@@ -43,16 +44,16 @@ class _MyHomePageState extends State<MyHomePage> {
               // Handle the selected option
               switch (value) {
                 case 'user_profile':
-                  print('User Profile');
+                  debugPrint('User Profile');
                   break;
                 case 'about_section':
-                  print('About Section');
+                  debugPrint('About Section');
                   break;
                 case 'view_app_guide':
-                  print('View App Guide');
+                  debugPrint('View App Guide');
                   break;
                 case 'sml_whatsapp_channel':
-                  print('Navigate to SML WhatsApp Channel');
+                  debugPrint('Navigate to SML WhatsApp Channel');
                   break;
               }
             },
@@ -209,16 +210,16 @@ class HousingPage extends StatelessWidget {
                 // Handle the selected option
                 switch (value) {
                   case 'user_profile':
-                    print('User Profile');
+                    debugPrint('User Profile');
                     break;
                   case 'about_section':
-                    print('About Section');
+                    debugPrint('About Section');
                     break;
                   case 'view_app_guide':
-                    print('View App Guide');
+                    debugPrint('View App Guide');
                     break;
                   case 'sml_whatsapp_channel':
-                    print('Navigate to SML WhatsApp Channel');
+                    debugPrint('Navigate to SML WhatsApp Channel');
                     break;
                 }
               },
@@ -254,7 +255,7 @@ class HousingPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                print('Article saved for future use');
+                debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
             ),
@@ -279,16 +280,16 @@ class EducationPage extends StatelessWidget {
                 // Handle the selected option
                 switch (value) {
                   case 'user_profile':
-                    print('User Profile');
+                    debugPrint('User Profile');
                     break;
                   case 'about_section':
-                    print('About Section');
+                    debugPrint('About Section');
                     break;
                   case 'view_app_guide':
-                    print('View App Guide');
+                    debugPrint('View App Guide');
                     break;
                   case 'sml_whatsapp_channel':
-                    print('Navigate to SML WhatsApp Channel');
+                    debugPrint('Navigate to SML WhatsApp Channel');
                     break;
                 }
               },
@@ -324,7 +325,7 @@ class EducationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                print('Article saved for future use');
+                debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
             ),
@@ -349,16 +350,16 @@ class ImmigrationPage extends StatelessWidget {
                 // Handle the selected option
                 switch (value) {
                   case 'user_profile':
-                    print('User Profile');
+                    debugPrint('User Profile');
                     break;
                   case 'about_section':
-                    print('About Section');
+                    debugPrint('About Section');
                     break;
                   case 'view_app_guide':
-                    print('View App Guide');
+                    debugPrint('View App Guide');
                     break;
                   case 'sml_whatsapp_channel':
-                    print('Navigate to SML WhatsApp Channel');
+                    debugPrint('Navigate to SML WhatsApp Channel');
                     break;
                 }
               },
@@ -394,7 +395,7 @@ class ImmigrationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                print('Article saved for future use');
+                debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
             ),
@@ -419,16 +420,16 @@ class HealthcarePage extends StatelessWidget {
                 // Handle the selected option
                 switch (value) {
                   case 'user_profile':
-                    print('User Profile');
+                    debugPrint('User Profile');
                     break;
                   case 'about_section':
-                    print('About Section');
+                    debugPrint('About Section');
                     break;
                   case 'view_app_guide':
-                    print('View App Guide');
+                    debugPrint('View App Guide');
                     break;
                   case 'sml_whatsapp_channel':
-                    print('Navigate to SML WhatsApp Channel');
+                    debugPrint('Navigate to SML WhatsApp Channel');
                     break;
                 }
               },
@@ -464,9 +465,21 @@ class HealthcarePage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                print('Article saved for future use');
+                debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) { 
+                  return PDFArticleContainer(
+                    path: 'assets/pdf/FAQ_KingCountyUndocumented.pdf',
+                    title: 'King County Health Insurance Enrollment Info');
+                  }
+                ));
+              },
+              child: Text('Demo Article'),
             ),
           ],
         ),
