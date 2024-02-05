@@ -46,15 +46,7 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'SML Guide Article',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.green,
-      ),
+      appBar: _topBar(),
       body: _buildUI(),
     );
   }
@@ -79,6 +71,56 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
         controller: pdfControllerPinch,
       ),
     );
+  }
+
+  PreferredSizeWidget? _topBar() {
+    return AppBar(
+        title: Text(widget.title),
+        actions: [
+          Builder(
+            builder: (innerContext) => PopupMenuButton<String>(
+              icon: Icon(Icons.settings), // Change the icon here
+              onSelected: (value) {
+                // Handle the selected option
+                switch (value) {
+                  case 'user_profile':
+                    debugPrint('User Profile');
+                    break;
+                  case 'about_section':
+                    debugPrint('About Section');
+                    break;
+                  case 'view_app_guide':
+                    debugPrint('View App Guide');
+                    break;
+                  case 'sml_whatsapp_channel':
+                    debugPrint('Navigate to SML WhatsApp Channel');
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                    value: 'user_profile',
+                    child: Text('User Profile'),
+                  ),
+                  PopupMenuItem(
+                    value: 'about_section',
+                    child: Text('About Section'),
+                  ),
+                  PopupMenuItem(
+                    value: 'view_app_guide',
+                    child: Text('View App Guide'),
+                  ),
+                  PopupMenuItem(
+                    value: 'sml_whatsapp_channel',
+                    child: Text('SML WhatsApp Channel'),
+                  ),
+                ];
+              },
+            ),
+          ),
+        ],
+      );
   }
 }
 
