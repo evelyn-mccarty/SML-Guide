@@ -41,3 +41,9 @@ flutter:
     - assets/images/
     - assets/pdf/
     - assets/json/
+
+  fonts: 
+    # Add Montserrat font
+    - family: Montserrat
+      fonts:
+        - asset: assets\fonts\FontsFree-Net-Montserrat-Medium.ttf

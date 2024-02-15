@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'SML Development',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat',
       ),
       home: MyHomePage(title: 'SML Home Page'),
     );
