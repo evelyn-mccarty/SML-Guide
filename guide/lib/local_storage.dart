@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'local_storage.g.dart';
 //import 'package:path_provider/path_provider.dart';
 
 /*
@@ -26,7 +28,7 @@ class LocalStorage extends StatefulWidget {
     super.key,
     required this.fPath,
   }) {
-    data = BaseArticleData("never adjusted but :)", [], []);
+    data = BaseArticleData(0, "never adjusted", [], [], []);
   }
 
   final String fPath;
@@ -110,20 +112,16 @@ class _LocalStorageState extends State<LocalStorage>{
   }
 }
 
+@JsonSerializable()
 class BaseArticleData {
+  BaseArticleData(this.id, this.title, this.tags, this.body, this.formatting);
+
   String title;
+  int id;
   List<String> body = List.empty(growable: true);
   List<String> tags = List.empty(growable: true);
-  BaseArticleData(this.title, this.body, this.tags);
+  List<String> formatting = List.empty(growable: true);
 
-  BaseArticleData.fromJson(Map<String, dynamic> json) 
-    : title = json['title'] as String,
-    tags = List<String>.from(json['tags']),
-    body = List<String>.from(json['body']);
-
-  Map<String, dynamic> toJson() => {
-    'title': title,
-    'tags': tags,
-    'body': body
-  };
+  factory BaseArticleData.fromJson(Map<String, dynamic> json) => _$BaseArticleDataFromJson(json);
+  Map<String, dynamic> toJson() => _$BaseArticleDataToJson(this);
 }

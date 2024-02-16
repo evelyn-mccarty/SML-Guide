@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'pdf_article_container.g.dart';
 
 /*
 EXAMPLE ON HOW TO BUILD THIS INTO A FUNCTION:
@@ -20,6 +24,7 @@ class PDFArticleContainer extends StatefulWidget {
     required this.title,
   });
 
+  final int id = 0;
   final String path;
   final String title;
   bool fav = false;
@@ -139,3 +144,16 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
   }
 }
 
+// this is *largely* unnecessary, but was a good example
+@JsonSerializable() 
+class FileArticle {
+  FileArticle(this.id, this.title, this.filename);
+
+  int id;
+  String title;
+  String filename;
+
+  factory FileArticle.fromJson(Map<String, dynamic> json) => _$FileArticleFromJson(json);
+  Map<String, dynamic> toJson() => _$FileArticleToJson(this);
+
+}
