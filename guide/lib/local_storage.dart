@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'main.dart';
 part 'local_storage.g.dart';
 //import 'package:path_provider/path_provider.dart';
 
@@ -92,16 +93,7 @@ class _LocalStorageState extends State<LocalStorage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          
-        ),
-        backgroundColor: Colors.green,
-      ),
+      appBar: ReusableWidgets.defaultAppBar(widget.title),
       body: Column(
         children: [
           Text(widget.aTags),
