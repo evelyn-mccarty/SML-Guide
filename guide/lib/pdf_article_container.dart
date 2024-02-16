@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'pdf_article_container.g.dart';
 
 /*
 EXAMPLE ON HOW TO BUILD THIS INTO A FUNCTION:
@@ -20,8 +24,10 @@ class PDFArticleContainer extends StatefulWidget {
     required this.title,
   });
 
+  final int id = 0;
   final String path;
   final String title;
+  bool fav = false;
 
   @override
   State<PDFArticleContainer> createState() => _PDFArticleContainerState();
@@ -35,6 +41,7 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
 
   @override
   initState() {
+    widget.fav = false;
     articleTitle = widget.title;
     String path = widget.path;
     super.initState();
@@ -56,7 +63,7 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
       children: [
         Text(
           articleTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.black),
           ),
@@ -74,12 +81,25 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
   }
 
   PreferredSizeWidget? _topBar() {
+    bool favorited = false;
     return AppBar(
         title: Text(widget.title),
         actions: [
           Builder(
+            builder: (innerContext) => IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: () {
+                setState(() { favorited = !favorited; });
+                debugPrint("saved article to cache (WIP)");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Article saved to cache"))
+                );
+              }
+            )
+          ),
+          Builder(
             builder: (innerContext) => PopupMenuButton<String>(
-              icon: Icon(Icons.settings), // Change the icon here
+              icon: const Icon(Icons.settings), // Change the icon here
               onSelected: (value) {
                 // Handle the selected option
                 switch (value) {
@@ -99,19 +119,19 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
               },
               itemBuilder: (BuildContext context) {
                 return [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'user_profile',
                     child: Text('User Profile'),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'about_section',
                     child: Text('About Section'),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'view_app_guide',
                     child: Text('View App Guide'),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'sml_whatsapp_channel',
                     child: Text('SML WhatsApp Channel'),
                   ),
@@ -124,3 +144,16 @@ class _PDFArticleContainerState extends State<PDFArticleContainer> {
   }
 }
 
+// this is *largely* unnecessary, but was a good example
+@JsonSerializable() 
+class FileArticle {
+  FileArticle(this.id, this.title, this.filename);
+
+  int id;
+  String title;
+  String filename;
+
+  factory FileArticle.fromJson(Map<String, dynamic> json) => _$FileArticleFromJson(json);
+  Map<String, dynamic> toJson() => _$FileArticleToJson(this);
+
+}

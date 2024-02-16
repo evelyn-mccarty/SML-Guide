@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:guide/json_article.dart';
 import 'package:guide/pdf_article_container.dart';
 
 void main() => runApp(MyApp());
@@ -12,8 +14,61 @@ class MyApp extends StatelessWidget {
       title: 'SML Development',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat',
       ),
       home: MyHomePage(title: 'SML Home Page'),
+    );
+  }
+}
+
+class ReusableWidgets {
+  static AppBar defaultAppBar(String title) {
+    return AppBar(
+      title: Text(title),
+      actions: [
+        Builder(
+          builder: (innerContext) => PopupMenuButton<String>(
+            icon: const Icon(Icons.settings), // Change the icon here
+            onSelected: (value) {
+              // Handle the selected option
+              switch (value) {
+                case 'user_profile':
+                  debugPrint('User Profile');
+                  break;
+                case 'about_section':
+                  debugPrint('About Section');
+                  break;
+                case 'view_app_guide':
+                  debugPrint('View App Guide');
+                  break;
+                case 'sml_whatsapp_channel':
+                  debugPrint('Navigate to SML WhatsApp Channel');
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 'user_profile',
+                  child: Text('User Profile'),
+                ),
+                const PopupMenuItem(
+                  value: 'about_section',
+                  child: Text('About Section'),
+                ),
+                const PopupMenuItem(
+                  value: 'view_app_guide',
+                  child: Text('View App Guide'),
+                ),
+                const PopupMenuItem(
+                  value: 'sml_whatsapp_channel',
+                  child: Text('SML WhatsApp Channel'),
+                ),
+              ];
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -35,51 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.settings),
-            onSelected: (value) {
-              // Handle the selected option
-              switch (value) {
-                case 'user_profile':
-                  debugPrint('User Profile');
-                  break;
-                case 'about_section':
-                  debugPrint('About Section');
-                  break;
-                case 'view_app_guide':
-                  debugPrint('View App Guide');
-                  break;
-                case 'sml_whatsapp_channel':
-                  debugPrint('Navigate to SML WhatsApp Channel');
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  value: 'user_profile',
-                  child: Text('User Profile'),
-                ),
-                PopupMenuItem(
-                  value: 'about_section',
-                  child: Text('About Section'),
-                ),
-                PopupMenuItem(
-                  value: 'view_app_guide',
-                  child: Text('View App Guide'),
-                ),
-                PopupMenuItem(
-                  value: 'sml_whatsapp_channel',
-                  child: Text('SML WhatsApp Channel'),
-                ),
-              ];
-            },
-          ),
-        ],
-      ),
+      appBar: ReusableWidgets.defaultAppBar("Home Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -200,53 +211,7 @@ class HousingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Housing Page'),
-        actions: [
-          Builder(
-            builder: (innerContext) => PopupMenuButton<String>(
-              icon: Icon(Icons.settings), // Change the icon here
-              onSelected: (value) {
-                // Handle the selected option
-                switch (value) {
-                  case 'user_profile':
-                    debugPrint('User Profile');
-                    break;
-                  case 'about_section':
-                    debugPrint('About Section');
-                    break;
-                  case 'view_app_guide':
-                    debugPrint('View App Guide');
-                    break;
-                  case 'sml_whatsapp_channel':
-                    debugPrint('Navigate to SML WhatsApp Channel');
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    value: 'user_profile',
-                    child: Text('User Profile'),
-                  ),
-                  PopupMenuItem(
-                    value: 'about_section',
-                    child: Text('About Section'),
-                  ),
-                  PopupMenuItem(
-                    value: 'view_app_guide',
-                    child: Text('View App Guide'),
-                  ),
-                  PopupMenuItem(
-                    value: 'sml_whatsapp_channel',
-                    child: Text('SML WhatsApp Channel'),
-                  ),
-                ];
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: ReusableWidgets.defaultAppBar("Housing Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -269,54 +234,8 @@ class HousingPage extends StatelessWidget {
 class EducationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Education Page'),
-        actions: [
-          Builder(
-            builder: (innerContext) => PopupMenuButton<String>(
-              icon: Icon(Icons.settings), // Change the icon here
-              onSelected: (value) {
-                // Handle the selected option
-                switch (value) {
-                  case 'user_profile':
-                    debugPrint('User Profile');
-                    break;
-                  case 'about_section':
-                    debugPrint('About Section');
-                    break;
-                  case 'view_app_guide':
-                    debugPrint('View App Guide');
-                    break;
-                  case 'sml_whatsapp_channel':
-                    debugPrint('Navigate to SML WhatsApp Channel');
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    value: 'user_profile',
-                    child: Text('User Profile'),
-                  ),
-                  PopupMenuItem(
-                    value: 'about_section',
-                    child: Text('About Section'),
-                  ),
-                  PopupMenuItem(
-                    value: 'view_app_guide',
-                    child: Text('View App Guide'),
-                  ),
-                  PopupMenuItem(
-                    value: 'sml_whatsapp_channel',
-                    child: Text('SML WhatsApp Channel'),
-                  ),
-                ];
-              },
-            ),
-          ),
-        ],
-      ),
+    return Scaffold(      
+      appBar: ReusableWidgets.defaultAppBar("Education Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -340,53 +259,7 @@ class ImmigrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Immigration Page'),
-        actions: [
-          Builder(
-            builder: (innerContext) => PopupMenuButton<String>(
-              icon: Icon(Icons.settings), // Change the icon here
-              onSelected: (value) {
-                // Handle the selected option
-                switch (value) {
-                  case 'user_profile':
-                    debugPrint('User Profile');
-                    break;
-                  case 'about_section':
-                    debugPrint('About Section');
-                    break;
-                  case 'view_app_guide':
-                    debugPrint('View App Guide');
-                    break;
-                  case 'sml_whatsapp_channel':
-                    debugPrint('Navigate to SML WhatsApp Channel');
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    value: 'user_profile',
-                    child: Text('User Profile'),
-                  ),
-                  PopupMenuItem(
-                    value: 'about_section',
-                    child: Text('About Section'),
-                  ),
-                  PopupMenuItem(
-                    value: 'view_app_guide',
-                    child: Text('View App Guide'),
-                  ),
-                  PopupMenuItem(
-                    value: 'sml_whatsapp_channel',
-                    child: Text('SML WhatsApp Channel'),
-                  ),
-                ];
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: ReusableWidgets.defaultAppBar("Immigration Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -406,7 +279,27 @@ class ImmigrationPage extends StatelessWidget {
   }
 }
 
-class HealthcarePage extends StatelessWidget {
+class HealthcarePage extends StatefulWidget {
+  @override
+  State<HealthcarePage> createState() => _HealthcarePageState();
+}
+
+class _HealthcarePageState extends State<HealthcarePage> {
+  late Future<JsonArticle> articleFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    articleFuture = getArticle(context);
+  }
+
+  static Future<JsonArticle> getArticle(BuildContext context) async {
+    final assetBundle = DefaultAssetBundle.of(context);
+    final data = await assetBundle.loadString('assets/json/testArticle.json');
+    final body = json.decode(data);
+    return JsonArticle.fromJson(body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -471,15 +364,32 @@ class HealthcarePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) { 
+                Navigator.push(context,
+                    MaterialPageRoute<void>(builder: (BuildContext context) {
                   return PDFArticleContainer(
-                    path: 'assets/pdf/FAQ_KingCountyUndocumented.pdf',
-                    title: 'King County Health Insurance Enrollment Info');
-                  }
-                ));
+                      path: 'assets/pdf/FAQ_KingCountyUndocumented.pdf',
+                      title: 'King County Health Insurance Enrollment Info');
+                }));
               },
-              child: Text('Demo Article'),
+              child: Text('Demo PDF Article'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => FutureBuilder(
+                            future: articleFuture,
+                            builder: ((context, snapshot) {
+                              if (snapshot.hasData) {
+                                final article = snapshot.data!;
+                                return JsonArticleContainer(article: article);
+                              } else {
+                                return const Text('No Data');
+                              }
+                            }))));
+              },
+              child: Text('Demo JSON Article'),
             ),
           ],
         ),
@@ -541,3 +451,4 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
+
