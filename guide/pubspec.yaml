@@ -20,6 +20,7 @@ dependencies:
       ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
       path: packages/pdfx
   path_provider: ^2.1.2
+  json_annotation: ^4.8.1
   # pdfx: ^2.5.0
   # current version pdfx is bugged on flutter >= 3.15 smiley
 
@@ -29,6 +30,8 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
 
 flutter:
   uses-material-design: true
