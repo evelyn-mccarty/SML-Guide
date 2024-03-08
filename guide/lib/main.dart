@@ -90,7 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: ReusableWidgets.defaultAppBar("Home Page"),
+      appBar: ReusableWidgets.defaultAppBar(
+          isSpanish ? "Página de inicio" : "Home Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.home),
                   SizedBox(width: 8.0),
-                  Text(isSpanish ? 'Vivienda' : 'HOUSING',
+                  Text(isSpanish ? 'Vivienda' : 'Housing',
                       style: TextStyle(fontSize: 16.0)),
                 ],
               ),
@@ -133,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.school),
                   SizedBox(width: 8.0),
-                  Text(isSpanish ? 'Educación' : 'EDUCATION',
+                  Text(isSpanish ? 'Educación' : 'Education',
                       style: TextStyle(fontSize: 16.0)),
                 ],
               ),
@@ -154,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.airplanemode_active),
                   SizedBox(width: 8.0),
-                  Text(isSpanish ? 'Inmigración' : 'IMMIGRATION',
+                  Text(isSpanish ? 'Inmigración' : 'Immigration',
                       style: TextStyle(fontSize: 16.0)),
                 ],
               ),
@@ -175,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Icon(Icons.local_hospital),
                   SizedBox(width: 8.0),
-                  Text(isSpanish ? 'Cuidado de la salud' : 'HEALTHCARE',
+                  Text(isSpanish ? 'Cuidado de la salud' : 'Healthcare',
                       style: TextStyle(fontSize: 16.0)),
                 ],
               ),
@@ -234,7 +235,7 @@ class HousingPage extends StatelessWidget {
 class EducationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return Scaffold(
       appBar: ReusableWidgets.defaultAppBar("Education Page"),
       body: Center(
         child: Column(
@@ -451,4 +452,3 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
-
