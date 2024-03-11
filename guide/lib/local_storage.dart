@@ -21,7 +21,6 @@ void main() => runApp(
   MaterialApp(home: LocalStorage(fPath: 'assets/json/testArticle.json')
   ));
 
-//TODO: Convert JSON decoding/encoding to json_serializable format (Eve should have done this when she first set this up, but alas.)
 //NOTE: technically, fPath can point anywhere, but i really should write a helper function to get it to pull from user Documents since that's what this is gonna be using most of the time...
 //TODO: get path_provider working here so all that has to be provided is a local path instead of assets/whatever.
 class LocalStorage extends StatefulWidget {
