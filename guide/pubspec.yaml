@@ -17,7 +17,7 @@ dependencies:
   pdfx: ^2.4.0
   path_provider: ^2.1.2
   json_annotation: ^4.8.1
-  aws_dynamodb_api: ^2.0.0
+  http: ^1.2.0
   # pdfx: ^2.5.0
   # current version pdfx is bugged on flutter >= 3.15 smiley
 
