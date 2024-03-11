@@ -14,10 +14,10 @@ class JsonArticle {
   });
 
   static JsonArticle fromJson(json) => JsonArticle(
-        title: json["title"],
-        author: json["author"],
+        title: json["Title"],
+        author: json["Author"],
         tags: json["tags"],
-        body: json["body"],
+        body: json["Body"],
       );
 }
 
