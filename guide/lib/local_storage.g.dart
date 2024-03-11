@@ -10,6 +10,7 @@ BaseArticleData _$BaseArticleDataFromJson(Map<String, dynamic> json) =>
     BaseArticleData(
       json['id'] as int,
       json['title'] as String,
+      json['author'] as String,
       (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       (json['body'] as List<dynamic>).map((e) => e as String).toList(),
       (json['formatting'] as List<dynamic>).map((e) => e as String).toList(),
@@ -18,6 +19,7 @@ BaseArticleData _$BaseArticleDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BaseArticleDataToJson(BaseArticleData instance) =>
     <String, dynamic>{
       'title': instance.title,
+      'author': instance.author,
       'id': instance.id,
       'body': instance.body,
       'tags': instance.tags,

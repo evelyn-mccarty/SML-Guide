@@ -1,5 +1,6 @@
 {
     "title" : "Test Article",
+    "author" : "Test Author",
     "tags" : [
         "English",
         "Healthcare"

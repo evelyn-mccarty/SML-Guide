@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 
 class JsonArticle {
   final String title;
+  final String author;
   final List<dynamic> tags;
   final List<dynamic> body;
 
   const JsonArticle({
     required this.title,
+    required this.author,
     required this.tags,
     required this.body,
   });
 
   static JsonArticle fromJson(json) => JsonArticle(
         title: json["title"],
+        author: json["author"],
         tags: json["tags"],
         body: json["body"],
       );
@@ -49,7 +52,11 @@ class _JsonArticleContainerState extends State<JsonArticleContainer> {
 
   Widget _buildUI() {
     return Column(
-      children: [_articleView(), Text(widget.article.tags.join(','))],
+      children: [
+        _articleView(),
+        Text(widget.article.author),
+        Text(widget.article.tags.join(','))
+      ],
     );
   }
 

@@ -16,10 +16,8 @@ In any case, provide a file path to the LocalStorage object, and it'll display t
 Will need polish to advance to actual production, but still.
 */
 
-
 void main() => runApp(
-  MaterialApp(home: LocalStorage(fPath: 'assets/json/testArticle.json')
-  ));
+    MaterialApp(home: LocalStorage(fPath: 'assets/json/testArticle.json')));
 
 //NOTE: technically, fPath can point anywhere, but i really should write a helper function to get it to pull from user Documents since that's what this is gonna be using most of the time...
 //TODO: get path_provider working here so all that has to be provided is a local path instead of assets/whatever.
@@ -28,7 +26,7 @@ class LocalStorage extends StatefulWidget {
     super.key,
     required this.fPath,
   }) {
-    data = BaseArticleData(0, "never adjusted", [], [], []);
+    data = BaseArticleData(0, "never adjusted", "never adjusted", [], [], []);
   }
 
   final String fPath;
@@ -50,12 +48,10 @@ class LocalStorage extends StatefulWidget {
       data = BaseArticleData.fromJson(dataMap);
 
       return data;
-
-
-    }
-    catch (e) {
+    } catch (e) {
       debugPrint(e.toString());
-      const contents = '{   "title" : "!!Test Article!!", "tags" : [ "English", "Healthcare"], "body" : [ "This is what an article body might look like, if it existed.", "And this is its second line."] }';
+      const contents =
+          '{   "title" : "!!Test Article!!", "tags" : [ "English", "Healthcare"], "body" : [ "This is what an article body might look like, if it existed.", "And this is its second line."] }';
       final dataMap = jsonDecode(contents) as Map<String, dynamic>;
       data = BaseArticleData.fromJson(dataMap);
       return data;
@@ -66,7 +62,7 @@ class LocalStorage extends StatefulWidget {
   State<LocalStorage> createState() => _LocalStorageState();
 }
 
-class _LocalStorageState extends State<LocalStorage>{
+class _LocalStorageState extends State<LocalStorage> {
   bool loaded = false;
 
   @override
@@ -77,7 +73,7 @@ class _LocalStorageState extends State<LocalStorage>{
         loaded = true;
         widget.data = result;
         stderr.write(widget.data.title);
-        
+
         widget.title = widget.data.title;
         for (String tag in widget.data.tags) {
           widget.aTags += "$tag, ";
@@ -87,8 +83,8 @@ class _LocalStorageState extends State<LocalStorage>{
         }
       });
     });
-    
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,14 +101,17 @@ class _LocalStorageState extends State<LocalStorage>{
 
 @JsonSerializable()
 class BaseArticleData {
-  BaseArticleData(this.id, this.title, this.tags, this.body, this.formatting);
+  BaseArticleData(
+      this.id, this.author, this.title, this.tags, this.body, this.formatting);
 
   String title;
+  String author;
   int id;
   List<String> body = List.empty(growable: true);
   List<String> tags = List.empty(growable: true);
   List<String> formatting = List.empty(growable: true);
 
-  factory BaseArticleData.fromJson(Map<String, dynamic> json) => _$BaseArticleDataFromJson(json);
+  factory BaseArticleData.fromJson(Map<String, dynamic> json) =>
+      _$BaseArticleDataFromJson(json);
   Map<String, dynamic> toJson() => _$BaseArticleDataToJson(this);
 }
