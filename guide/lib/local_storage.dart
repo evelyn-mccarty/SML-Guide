@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'main.dart';
-import 'update_db.dart';
+import 'package:http/http.dart';
 part 'local_storage.g.dart';
 //import 'package:path_provider/path_provider.dart';
 
@@ -37,6 +37,13 @@ class LocalStorage extends StatefulWidget {
   String aTags = "";
   String aBody = "";
   String title = "never adjusted :)";
+
+  /*Future<File> get _cloudFile async {
+    if ("http" != fPath.substring(0, 4)) {
+      return File('assets/json/badFile.json');
+    }
+    
+  }*/
 
   Future<File> get _localFile async {
     return File(fPath);

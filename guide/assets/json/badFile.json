@@ -1,0 +1,10 @@
+{
+    "title" : "Bad Article",
+    "tags" : [
+        "English",
+        "Healthcare"
+    ],
+    "body" : [
+        "This is a bad file!"
+    ]
+}

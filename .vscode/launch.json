@@ -27,6 +27,13 @@
         },
 
         {
+            "name": "http test",
+            "type": "dart",
+            "request": "launch",
+            "program": "guide/lib/update_db.dart"
+        },
+
+        {
             "name": "guide",
             "cwd": "guide",
             "request": "launch",
