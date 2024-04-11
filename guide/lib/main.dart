@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:guide/json_article.dart';
 import 'package:guide/pdf_article_container.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -210,6 +211,13 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HousingPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,6 +230,8 @@ class HousingPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+                
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
@@ -234,6 +244,13 @@ class HousingPage extends StatelessWidget {
 }
 
 class EducationPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,6 +263,8 @@ class EducationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
@@ -258,6 +277,13 @@ class EducationPage extends StatelessWidget {
 }
 
 class ImmigrationPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -270,6 +296,8 @@ class ImmigrationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: Text('Save for Later'),
