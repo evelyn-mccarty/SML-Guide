@@ -1,10 +1,11 @@
 {
-    "title" : "Test Article",
+    "Title" : "Test Article",
+    "Author" : "Test Author",
     "tags" : [
         "English",
         "Healthcare"
     ],
-    "body" : [
+    "Body" : [
         "This is what an article body might look like, if it existed.",
         "And this is its second line."
     ]

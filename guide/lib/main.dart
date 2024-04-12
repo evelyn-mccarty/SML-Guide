@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:guide/json_article.dart';
 import 'package:guide/pdf_article_container.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const MyApp());
 
@@ -209,6 +211,13 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HousingPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -221,6 +230,8 @@ class HousingPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+                
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: const Text('Save for Later'),
@@ -233,6 +244,13 @@ class HousingPage extends StatelessWidget {
 }
 
 class EducationPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,6 +263,8 @@ class EducationPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: const Text('Save for Later'),
@@ -257,6 +277,13 @@ class EducationPage extends StatelessWidget {
 }
 
 class ImmigrationPage extends StatelessWidget {
+
+  Future<void> _saveArticleId(String articleId) async{
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('articleId', articleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -269,6 +296,8 @@ class ImmigrationPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
+
+                _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
               child: const Text('Save for Later'),
@@ -287,11 +316,13 @@ class HealthcarePage extends StatefulWidget {
 
 class _HealthcarePageState extends State<HealthcarePage> {
   late Future<JsonArticle> articleFuture;
+  late Future<JsonArticle> articleFutureHTTP;
 
   @override
   void initState() {
     super.initState();
     articleFuture = getArticle(context);
+    articleFutureHTTP = getArticleHTTP(context);
   }
 
   static Future<JsonArticle> getArticle(BuildContext context) async {
@@ -299,6 +330,21 @@ class _HealthcarePageState extends State<HealthcarePage> {
     final data = await assetBundle.loadString('assets/json/testArticle.json');
     final body = json.decode(data);
     return JsonArticle.fromJson(body);
+  }
+
+  static Future<JsonArticle> getArticleHTTP(BuildContext context) async {
+    final response = await http.get(Uri.parse(
+        'https://4f42qtmhy5.execute-api.us-east-2.amazonaws.com/Prod/ArticleList?Title=Test%20Article&Author=Test%20Author'));
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return JsonArticle.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
   }
 
   @override
@@ -391,6 +437,24 @@ class _HealthcarePageState extends State<HealthcarePage> {
                             }))));
               },
               child: const Text('Demo JSON Article'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => FutureBuilder(
+                            future: articleFutureHTTP,
+                            builder: ((context, snapshot) {
+                              if (snapshot.hasData) {
+                                final article = snapshot.data!;
+                                return JsonArticleContainer(article: article);
+                              } else {
+                                return const Text('No Data');
+                              }
+                            }))));
+              },
+              child: Text('Demo HTTP GET'),
             ),
           ],
         ),
