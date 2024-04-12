@@ -78,7 +78,7 @@ class _JsonArticleContainerState extends State<JsonArticleContainer> {
       actions: [
         Builder(
           builder: (innerContext) => PopupMenuButton<String>(
-            icon: Icon(Icons.settings), // Change the icon here
+            icon: const Icon(Icons.settings), // Change the icon here
             onSelected: (value) {
               // Handle the selected option
               switch (value) {
@@ -98,19 +98,19 @@ class _JsonArticleContainerState extends State<JsonArticleContainer> {
             },
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'user_profile',
                   child: Text('User Profile'),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'about_section',
                   child: Text('About Section'),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'view_app_guide',
                   child: Text('View App Guide'),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'sml_whatsapp_channel',
                   child: Text('SML WhatsApp Channel'),
                 ),
