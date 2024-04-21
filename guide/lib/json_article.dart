@@ -16,7 +16,7 @@ class JsonArticle {
   static JsonArticle fromJson(json) => JsonArticle(
         title: json["Title"],
         author: json["Author"],
-        tags: json["tags"],
+        tags: json["Tags"],
         body: json["Body"],
       );
 }

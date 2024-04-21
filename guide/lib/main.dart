@@ -211,9 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HousingPage extends StatelessWidget {
-
-  Future<void> _saveArticleId(String articleId) async{
-
+  Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
   }
@@ -230,7 +228,6 @@ class HousingPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                
                 _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
@@ -244,9 +241,7 @@ class HousingPage extends StatelessWidget {
 }
 
 class EducationPage extends StatelessWidget {
-
-  Future<void> _saveArticleId(String articleId) async{
-
+  Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
   }
@@ -263,7 +258,6 @@ class EducationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-
                 _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
@@ -277,9 +271,7 @@ class EducationPage extends StatelessWidget {
 }
 
 class ImmigrationPage extends StatelessWidget {
-
-  Future<void> _saveArticleId(String articleId) async{
-
+  Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
   }
@@ -296,7 +288,6 @@ class ImmigrationPage extends StatelessWidget {
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-
                 _saveArticleId('123');
                 debugPrint('Article saved for future use');
               },
@@ -334,7 +325,7 @@ class _HealthcarePageState extends State<HealthcarePage> {
 
   static Future<JsonArticle> getArticleHTTP(BuildContext context) async {
     final response = await http.get(Uri.parse(
-        'https://4f42qtmhy5.execute-api.us-east-2.amazonaws.com/Prod/ArticleList?Title=Test%20Article&Author=Test%20Author'));
+        'https://hjk9v5kjg1.execute-api.us-east-2.amazonaws.com/Articles/TestArticle1'));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -343,7 +334,7 @@ class _HealthcarePageState extends State<HealthcarePage> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load article');
     }
   }
 
