@@ -7,9 +7,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
+Future<List<JsonArticle>> getArticles() async {
+  final response = await http.get(Uri.parse(
+      'https://hjk9v5kjg1.execute-api.us-east-2.amazonaws.com/Articles'));
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List<dynamic> test = jsonDecode(response.body) as List<dynamic>;
+    List<JsonArticle> articles = [];
+    for (final element in test) {
+      articles.add(JsonArticle.fromJson(element));
+    }
+    return articles;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load article');
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,6 +105,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isSpanish = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final Future<List<JsonArticle>> articles = getArticles();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +122,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HousingPage()),
+                  MaterialPageRoute(
+                      builder: (context) => HousingPage(
+                            articles: articles,
+                          )),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -124,7 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EducationPage()),
+                  MaterialPageRoute(
+                      builder: (context) => EducationPage(articles: articles)),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -145,7 +168,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ImmigrationPage()),
+                  MaterialPageRoute(
+                      builder: (context) => ImmigrationPage(
+                            articles: articles,
+                          )),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -211,6 +237,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HousingPage extends StatelessWidget {
+  final Future<List<JsonArticle>> articles;
+
+  const HousingPage({required this.articles});
+
   Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
@@ -224,7 +254,32 @@ class HousingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This is the Housing Page'),
+            FutureBuilder(
+                future: articles,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text('Loading'));
+                  }
+                  List<JsonArticle> fin = snapshot.data!
+                      .where((element) => element.tags.contains("Housing Tag"))
+                      .toList();
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: fin.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(fin[index].title),
+                        subtitle: Text(fin[index].author),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  JsonArticleContainer(article: fin[index])));
+                        },
+                      );
+                    },
+                  );
+                }),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
@@ -241,6 +296,10 @@ class HousingPage extends StatelessWidget {
 }
 
 class EducationPage extends StatelessWidget {
+  final Future<List<JsonArticle>> articles;
+
+  const EducationPage({required this.articles});
+
   Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
@@ -254,7 +313,33 @@ class EducationPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This is the Education Page'),
+            FutureBuilder(
+                future: articles,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text('Loading'));
+                  }
+                  List<JsonArticle> fin = snapshot.data!
+                      .where(
+                          (element) => element.tags.contains("Education Tag"))
+                      .toList();
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: fin.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(fin[index].title),
+                        subtitle: Text(fin[index].author),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  JsonArticleContainer(article: fin[index])));
+                        },
+                      );
+                    },
+                  );
+                }),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
@@ -271,6 +356,10 @@ class EducationPage extends StatelessWidget {
 }
 
 class ImmigrationPage extends StatelessWidget {
+  final Future<List<JsonArticle>> articles;
+
+  const ImmigrationPage({required this.articles});
+
   Future<void> _saveArticleId(String articleId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('articleId', articleId);
@@ -284,7 +373,33 @@ class ImmigrationPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This is the Immigration Page'),
+            FutureBuilder(
+                future: articles,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text('Loading'));
+                  }
+                  List<JsonArticle> fin = snapshot.data!
+                      .where(
+                          (element) => element.tags.contains("Immigration Tag"))
+                      .toList();
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: fin.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(fin[index].title),
+                        subtitle: Text(fin[index].author),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  JsonArticleContainer(article: fin[index])));
+                        },
+                      );
+                    },
+                  );
+                }),
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
