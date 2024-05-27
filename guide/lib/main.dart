@@ -148,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                       builder: (context) => HousingPage(
                             articles: articles,
+                            isSpanish: isSpanish,
                           )),
                 );
               },
@@ -170,7 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EducationPage(articles: articles)),
+                      builder: (context) => EducationPage(
+                            articles: articles,
+                            isSpanish: isSpanish,
+                          )),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -194,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                       builder: (context) => ImmigrationPage(
                             articles: articles,
+                            isSpanish: isSpanish,
                           )),
                 );
               },
@@ -215,7 +220,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HealthcarePage()),
+                  MaterialPageRoute(
+                      builder: (context) => HealthcarePage(
+                            articles: articles,
+                            isSpanish: isSpanish,
+                          )),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -261,18 +270,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class HousingPage extends StatelessWidget {
   final Future<List<JsonArticle>> articles;
+  final bool isSpanish;
 
-  const HousingPage({required this.articles});
-
-  Future<void> _saveArticleId(String articleId) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('articleId', articleId);
-  }
+  const HousingPage({required this.articles, required this.isSpanish});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ReusableWidgets.defaultAppBar("Housing Page"),
+      appBar: ReusableWidgets.defaultAppBar(
+          isSpanish ? "Página de vivienda" : "Housing Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -283,9 +289,20 @@ class HousingPage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Center(child: Text('Loading'));
                   }
-                  List<JsonArticle> fin = snapshot.data!
-                      .where((element) => element.tags.contains("Housing Tag"))
-                      .toList();
+                  List<JsonArticle> fin = [];
+                  if (isSpanish) {
+                    fin = snapshot.data!
+                        .where(
+                            (element) => element.tags.contains("Housing Tag"))
+                        .where((element) => element.tags.contains("Spanish"))
+                        .toList();
+                  } else {
+                    fin = snapshot.data!
+                        .where(
+                            (element) => element.tags.contains("Housing Tag"))
+                        .toList();
+                  }
+
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: fin.length,
@@ -303,14 +320,6 @@ class HousingPage extends StatelessWidget {
                     },
                   );
                 }),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                _saveArticleId('123');
-                debugPrint('Article saved for future use');
-              },
-              child: Text('Save for Later'),
-            ),
           ],
         ),
       ),
@@ -320,18 +329,15 @@ class HousingPage extends StatelessWidget {
 
 class EducationPage extends StatelessWidget {
   final Future<List<JsonArticle>> articles;
+  final bool isSpanish;
 
-  const EducationPage({required this.articles});
-
-  Future<void> _saveArticleId(String articleId) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('articleId', articleId);
-  }
+  const EducationPage({required this.articles, required this.isSpanish});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ReusableWidgets.defaultAppBar("Education Page"),
+      appBar: ReusableWidgets.defaultAppBar(
+          isSpanish ? "Página de Educatión" : "Education Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -342,10 +348,19 @@ class EducationPage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Center(child: Text('Loading'));
                   }
-                  List<JsonArticle> fin = snapshot.data!
-                      .where(
-                          (element) => element.tags.contains("Education Tag"))
-                      .toList();
+                  List<JsonArticle> fin = [];
+                  if (isSpanish) {
+                    fin = snapshot.data!
+                        .where(
+                            (element) => element.tags.contains("Education Tag"))
+                        .where((element) => element.tags.contains("Spanish"))
+                        .toList();
+                  } else {
+                    fin = snapshot.data!
+                        .where(
+                            (element) => element.tags.contains("Education Tag"))
+                        .toList();
+                  }
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: fin.length,
@@ -363,14 +378,6 @@ class EducationPage extends StatelessWidget {
                     },
                   );
                 }),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                _saveArticleId('123');
-                debugPrint('Article saved for future use');
-              },
-              child: Text('Save for Later'),
-            ),
           ],
         ),
       ),
@@ -380,18 +387,14 @@ class EducationPage extends StatelessWidget {
 
 class ImmigrationPage extends StatelessWidget {
   final Future<List<JsonArticle>> articles;
+  final bool isSpanish;
 
-  const ImmigrationPage({required this.articles});
-
-  Future<void> _saveArticleId(String articleId) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('articleId', articleId);
-  }
-
+  const ImmigrationPage({required this.articles, required this.isSpanish});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ReusableWidgets.defaultAppBar("Immigration Page"),
+      appBar: ReusableWidgets.defaultAppBar(
+          isSpanish ? "Página de Inmigración" : "Immigration Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -402,10 +405,19 @@ class ImmigrationPage extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Center(child: Text('Loading'));
                   }
-                  List<JsonArticle> fin = snapshot.data!
-                      .where(
-                          (element) => element.tags.contains("Immigration Tag"))
-                      .toList();
+                  List<JsonArticle> fin = [];
+                  if (isSpanish) {
+                    fin = snapshot.data!
+                        .where((element) =>
+                            element.tags.contains("Immigration Tag"))
+                        .where((element) => element.tags.contains("Spanish"))
+                        .toList();
+                  } else {
+                    fin = snapshot.data!
+                        .where((element) =>
+                            element.tags.contains("Immigration Tag"))
+                        .toList();
+                  }
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: fin.length,
@@ -423,14 +435,6 @@ class ImmigrationPage extends StatelessWidget {
                     },
                   );
                 }),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                _saveArticleId('123');
-                debugPrint('Article saved for future use');
-              },
-              child: Text('Save for Later'),
-            ),
           ],
         ),
       ),
@@ -438,152 +442,56 @@ class ImmigrationPage extends StatelessWidget {
   }
 }
 
-class HealthcarePage extends StatefulWidget {
-  @override
-  State<HealthcarePage> createState() => _HealthcarePageState();
-}
+class HealthcarePage extends StatelessWidget {
+  final Future<List<JsonArticle>> articles;
+  final bool isSpanish;
 
-class _HealthcarePageState extends State<HealthcarePage> {
-  late Future<String> articleFuture;
-  late Future<JsonArticle> articleFutureHTTP;
-
-  @override
-  void initState() {
-    super.initState();
-    articleFuture = getArticle(context);
-    articleFutureHTTP = getArticleHTTP(context);
-  }
-
-  static Future<String> getArticle(BuildContext context) async {
-    final file = await _localFile;
-    final contents = await file.readAsString();
-    return contents;
-  }
-
-  static Future<JsonArticle> getArticleHTTP(BuildContext context) async {
-    final response = await http.get(Uri.parse(
-        'https://hjk9v5kjg1.execute-api.us-east-2.amazonaws.com/Articles/TestArticle1'));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return JsonArticle.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load article');
-    }
-  }
-
+  const HealthcarePage({required this.articles, required this.isSpanish});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Healthcare Page'),
-        actions: [
-          Builder(
-            builder: (innerContext) => PopupMenuButton<String>(
-              icon: Icon(Icons.settings), // Change the icon here
-              onSelected: (value) {
-                // Handle the selected option
-                switch (value) {
-                  case 'user_profile':
-                    debugPrint('User Profile');
-                    break;
-                  case 'about_section':
-                    debugPrint('About Section');
-                    break;
-                  case 'view_app_guide':
-                    debugPrint('View App Guide');
-                    break;
-                  case 'sml_whatsapp_channel':
-                    debugPrint('Navigate to SML WhatsApp Channel');
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    value: 'user_profile',
-                    child: Text('User Profile'),
-                  ),
-                  PopupMenuItem(
-                    value: 'about_section',
-                    child: Text('About Section'),
-                  ),
-                  PopupMenuItem(
-                    value: 'view_app_guide',
-                    child: Text('View App Guide'),
-                  ),
-                  PopupMenuItem(
-                    value: 'sml_whatsapp_channel',
-                    child: Text('SML WhatsApp Channel'),
-                  ),
-                ];
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: ReusableWidgets.defaultAppBar(
+          isSpanish ? "Página de Salud" : "Healthcare Page"),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('This is the Healthcare Page'),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                debugPrint('Article saved for future use');
-              },
-              child: Text('Save for Later'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute<void>(builder: (BuildContext context) {
-                  return PDFArticleContainer(
-                      path: 'assets/pdf/FAQ_KingCountyUndocumented.pdf',
-                      title: 'King County Health Insurance Enrollment Info');
-                }));
-              },
-              child: Text('Demo PDF Article'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => FutureBuilder(
-                            future: articleFuture,
-                            builder: ((context, snapshot) {
-                              if (snapshot.hasData) {
-                                final article = snapshot.data!;
-                                return Text(article);
-                              } else {
-                                return const Text('No Data');
-                              }
-                            }))));
-              },
-              child: Text('Demo JSON Article'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => FutureBuilder(
-                            future: articleFutureHTTP,
-                            builder: ((context, snapshot) {
-                              if (snapshot.hasData) {
-                                final article = snapshot.data!;
-                                return JsonArticleContainer(article: article);
-                              } else {
-                                return const Text('No Data');
-                              }
-                            }))));
-              },
-              child: Text('Demo HTTP GET'),
-            ),
+            FutureBuilder(
+                future: articles,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text('Loading'));
+                  }
+                  List<JsonArticle> fin = [];
+                  if (isSpanish) {
+                    fin = snapshot.data!
+                        .where((element) =>
+                            element.tags.contains("Healthcare Tag"))
+                        .where((element) => element.tags.contains("Spanish"))
+                        .toList();
+                  } else {
+                    fin = snapshot.data!
+                        .where((element) =>
+                            element.tags.contains("Healthcare Tag"))
+                        .toList();
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: fin.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(fin[index].title),
+                        subtitle: Text(fin[index].author),
+                        trailing: const Icon(Icons.arrow_forward),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  JsonArticleContainer(article: fin[index])));
+                        },
+                      );
+                    },
+                  );
+                }),
           ],
         ),
       ),
