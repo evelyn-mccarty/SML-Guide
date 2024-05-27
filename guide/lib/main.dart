@@ -4,26 +4,48 @@ import 'package:guide/json_article.dart';
 import 'package:guide/pdf_article_container.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
-Future<List<JsonArticle>> getArticles() async {
-  final response = await http.get(Uri.parse(
-      'https://hjk9v5kjg1.execute-api.us-east-2.amazonaws.com/Articles'));
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    List<dynamic> test = jsonDecode(response.body) as List<dynamic>;
-    List<JsonArticle> articles = [];
-    for (final element in test) {
-      articles.add(JsonArticle.fromJson(element));
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/articles.json');
+}
+
+Future<void> updateArticles() async {
+  final file = await _localFile;
+  try {
+    final response = await http.get(Uri.parse(
+        'https://hjk9v5kjg1.execute-api.us-east-2.amazonaws.com/Articles'));
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      file.writeAsString(response.body);
     }
-    return articles;
-  } else {
+  } on SocketException catch (_) {
     // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load article');
+    // then assume no connection, procede with local data.
+    print('No internet');
   }
+}
+
+Future<List<JsonArticle>> readArticles() async {
+  final file = await _localFile;
+  final contents = await file.readAsString();
+  List<dynamic> test = jsonDecode(contents) as List<dynamic>;
+  List<JsonArticle> articles = [];
+  for (final element in test) {
+    articles.add(JsonArticle.fromJson(element));
+  }
+  return articles;
 }
 
 class MyApp extends StatelessWidget {
@@ -105,10 +127,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isSpanish = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final Future<List<JsonArticle>> articles = getArticles();
+  Future<List<JsonArticle>> articles = readArticles();
 
   @override
   Widget build(BuildContext context) {
+    updateArticles();
     return Scaffold(
       key: _scaffoldKey,
       appBar: ReusableWidgets.defaultAppBar(
@@ -421,7 +444,7 @@ class HealthcarePage extends StatefulWidget {
 }
 
 class _HealthcarePageState extends State<HealthcarePage> {
-  late Future<JsonArticle> articleFuture;
+  late Future<String> articleFuture;
   late Future<JsonArticle> articleFutureHTTP;
 
   @override
@@ -431,11 +454,10 @@ class _HealthcarePageState extends State<HealthcarePage> {
     articleFutureHTTP = getArticleHTTP(context);
   }
 
-  static Future<JsonArticle> getArticle(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/json/testArticle.json');
-    final body = json.decode(data);
-    return JsonArticle.fromJson(body);
+  static Future<String> getArticle(BuildContext context) async {
+    final file = await _localFile;
+    final contents = await file.readAsString();
+    return contents;
   }
 
   static Future<JsonArticle> getArticleHTTP(BuildContext context) async {
@@ -536,7 +558,7 @@ class _HealthcarePageState extends State<HealthcarePage> {
                             builder: ((context, snapshot) {
                               if (snapshot.hasData) {
                                 final article = snapshot.data!;
-                                return JsonArticleContainer(article: article);
+                                return Text(article);
                               } else {
                                 return const Text('No Data');
                               }
