@@ -281,7 +281,7 @@ class HousingPage extends StatelessWidget {
           isSpanish ? "Página de vivienda" : "Housing Page"),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FutureBuilder(
                 future: articles,
@@ -340,7 +340,7 @@ class EducationPage extends StatelessWidget {
           isSpanish ? "Página de Educatión" : "Education Page"),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FutureBuilder(
                 future: articles,
@@ -397,7 +397,7 @@ class ImmigrationPage extends StatelessWidget {
           isSpanish ? "Página de Inmigración" : "Immigration Page"),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FutureBuilder(
                 future: articles,
@@ -454,7 +454,7 @@ class HealthcarePage extends StatelessWidget {
           isSpanish ? "Página de Salud" : "Healthcare Page"),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             FutureBuilder(
                 future: articles,
